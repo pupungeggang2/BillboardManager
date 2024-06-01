@@ -1,5 +1,5 @@
 window.onload = setMainTitle
 
 function setMainTitle() {
-    document.getElementById('Title').innerHTML = `${sessionStorage.getItem('BillboardManagerAccount')}'s billboard`
+    document.getElementById('Title').innerHTML = `${localStorage.getItem('BillboardManagerLogin')}'s billboard`
 }

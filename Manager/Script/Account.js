@@ -19,7 +19,7 @@ function signup() {
         alert('Passwords do not match')
     } else {
         let storage = JSON.parse(localStorage.getItem('BillboardManagerAccount'))
-        storage[textID] = {'Password' : textPassword, 'Billboard' : [], 'Organization' : ''}
+        storage[textID] = {'Password' : textPassword, 'Organization' : ''}
         localStorage.setItem('BillboardManagerAccount', JSON.stringify(storage))
         location.href = 'index.html'
     }
@@ -39,7 +39,7 @@ function login() {
         if (textID in storage) {
             if (storage[textID]['Password'] === textPassword) {
                 alert('Log in succesful.')
-                sessionStorage.setItem('BillboardManagerAccount', textID)
+                localStorage.setItem('BillboardManagerLogin', textID)
 
                 if (storage[textID]['Organization'] === '') {
                     location.href = 'organization.html'
