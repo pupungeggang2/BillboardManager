@@ -1,7 +1,8 @@
 const express = require("express");
 const ws = require("ws");
-
 const app = express();
+
+var connection = []
 
 const httpServer = app.listen(3001, () => {
   console.log("3001");
