@@ -15,7 +15,7 @@ const webSocketServer = new ws.Server({
 webSocketServer.on("connection", (ws, request) => {
   const ip = request.socket.remoteAddress;
 
-  console.log(`${ip}`);
+  console.log(`Server started at ${ip}`);
 
   if (ws.readyState === ws.OPEN) {
     console.log(`[${ip}]`);

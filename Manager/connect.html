@@ -8,7 +8,7 @@
     const webSocket = new WebSocket("ws://localhost:3001");
 
 webSocket.onopen = function () {
-alert("웹소켓 서버와 연결에 성공했습니다.");
+alert("Successfully Connected.");
 };
 
 webSocket.onmessage = function (event) {
@@ -16,7 +16,7 @@ alert(event.data);
 };
 
 webSocket.onclose = function () {
-alert("웹소켓 서버와 연결이 종료되었습니다.");
+alert("Closed");
 };
 
 webSocket.onerror = function (error) {
@@ -28,11 +28,11 @@ const message = document.getElementById("message").value;
 webSocket.send(message);
 }
 </script>
-<body>
-<script src="Script/Connect.js"></script>
-<div>
-<input type="text" id="message" />
-<button type="button" onclick="sendMessage()">전송</button>
-</div>
-</body>
+    <body>
+        <script src="Script/Connect.js"></script>
+        <div>
+            <input type="text" id="message" />
+            <button type="button" onclick="sendMessage()">Send</button>
+        </div>
+    </body>
 </html>

@@ -8,4 +8,4 @@ let delta
 
 let editState = ''
 
-let editContent
+let editContent = []
