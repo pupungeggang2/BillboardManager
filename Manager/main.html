@@ -8,10 +8,13 @@
         <script src="Script/PageMain.js"></script>
         <div>
             <h1 id="Title"></h1>
+            <button onclick="logout()">Log Out</button>
             <br>
-            <div id="BillBoardConnected"></div>
+            <div id="BillboardIDs"></div>
             <br>
-            <button id="ButtonConnect" onclick="location.href='connect.html'">Connect</button>
+            <label>ID</label>
+            <input id="BillboardID" type="text"/>
+            <button id="ButtonConnect" onclick="addBillboardID()">Connect</button>
             <br>
             <div id="BillboardPreset"></div>
             <br>

@@ -3,7 +3,7 @@ function createOrganization() {
     let textPassword = document.getElementById('TextCreatePassword').value
 
     let storageOrganization = JSON.parse(localStorage.getItem('BillboardManagerOrganization'))
-    storageOrganization[textName] = {'Members' : [localStorage.getItem('BillboardManagerLogin')], 'Password' : textPassword, 'Billboard' : []}
+    storageOrganization[textName] = {'Members' : [localStorage.getItem('BillboardManagerLogin')], 'Password' : textPassword, 'Billboard' : [], 'BillboardID' : []}
     localStorage.setItem('BillboardManagerOrganization', JSON.stringify(storageOrganization))
 
     let storageAccount = JSON.parse(localStorage.getItem('BillboardManagerAccount'))

@@ -14,9 +14,7 @@ function editFinish() {
     let account = localStorage.getItem('BillboardManagerLogin')
     let organization = JSON.parse(localStorage.getItem('BillboardManagerAccount'))[account]['Organization']
     let billboard = JSON.parse(localStorage.getItem('BillboardManagerOrganization'))
-
     billboard[organization]['Billboard'].push(editContent)
-
     localStorage.setItem('BillboardManagerOrganization', JSON.stringify(billboard))
 
     editContent = []
