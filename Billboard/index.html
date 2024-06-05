@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
+        <meta charset="UTF-8">
         <title>Billboard</title>
         <style>
             #Screen {
@@ -13,11 +14,14 @@
         <script src="Script/BillboardVar.js"></script>
         <script src="Script/BillboardScene.js"></script>
         <div>
-            <canvas id="Screen" width="1280" height="720"></canvas>
+            <canvas id="Screen" width="960" height="540"></canvas>
+            <br>
+            <label>Organization</label>
+            <input id="Organization" type="text"/>
             <br>
             <label>ID</label>
-            <input id="BillboardID" type="text"/>
-            <button onclick="setID()">Connect</button>
+            <input id="BillboardName" type="text"/>
+            <button onclick="setName()">Connect</button>
         </div>
     </body>
 </html>

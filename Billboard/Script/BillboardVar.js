@@ -9,4 +9,4 @@ let programFramePrevious
 let delta
 
 let billboardContent = []
-let billboardID = ''
+let billboardName = ''

@@ -6,7 +6,7 @@ function main() {
     canvas = document.getElementById('Screen')
     context = canvas.getContext('2d')
 
-    billboardID = localStorage.getItem('BillboardID')
+    billboardName = localStorage.getItem('BillboardName')
 
     programFrameCurrent = Date.now()
     programFramePrevious = Date.now() - 16
@@ -30,8 +30,8 @@ function display() {
     context.fillStyle = 'Black'
     context.strokeStyle = 'Black'
     context.lineWidth = 2
-    context.clearRect(0, 0, 1280, 720)
-    context.fillRect(0, 0, 1280, 720)
+    context.clearRect(0, 0, 960, 540)
+    context.fillRect(0, 0, 960, 540)
 }
 
 function errorHandle(err, url, line, col, obj) {

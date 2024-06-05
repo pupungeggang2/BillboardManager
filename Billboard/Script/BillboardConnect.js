@@ -2,22 +2,35 @@ const webSocket = new WebSocket("ws://localhost:3001")
 
 webSocket.onopen = function () {
     alert("Successfully connected.")
-};
+}
 
 webSocket.onmessage = function (event) {
-    billboardContent = event.data
-    alert(event.data)
-};
+    let msgString = event.data.toString()
+
+    updateContent(msgString)
+}
 
 webSocket.onclose = function () {
-    alert("웹소켓 서버와 연결이 종료되었습니다.")
-};
+    alert("Connection closed.")
+}
 
 webSocket.onerror = function (error) {
     console.log(error)
-};
+}
 
-function setID() {
-    billboardID = document.getElementById("BillboardID").value
-    localStorage.setItem('BillboardID', document.getElementById("BillboardID").value)
+function setName() {
+    let billboardName = document.getElementById("BillboardName").value
+    let organization = document.getElementById("Organization").value
+    localStorage.setItem('BillboardName', document.getElementById("BillboardName").value)
+    webSocket.send(`Add:${organization}:${billboardName}`)
+}
+
+function updateContent(msg) {
+    let msgList = msg.split(':')
+    
+    if (msgList[0] === 'Update') {
+        if (msgList[1] === billboardName) {
+            billboardContent = JSON.parse(msgList[2])
+        }
+    }
 }

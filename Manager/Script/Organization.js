@@ -10,6 +10,7 @@ function createOrganization() {
     storageAccount[localStorage.getItem('BillboardManagerLogin')]['Organization'] = textName
     localStorage.setItem('BillboardManagerAccount', JSON.stringify(storageAccount))
 
+    alert('Created organization successfully.')
     location.href = 'main.html'
 }
 

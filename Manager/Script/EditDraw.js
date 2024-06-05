@@ -6,8 +6,8 @@ function drawEditInit() {
     editContext.strokeStyle = 'Black'
     editContext.lineWidth = 2
 
-    editContext.clearRect(0, 0, 1280, 720)
-    editContext.fillRect(0, 0, 1280, 720)
+    editContext.clearRect(0, 0, 960, 540)
+    editContext.fillRect(0, 0, 960, 540)
 }
 
 function drawEditUpperBar() {
