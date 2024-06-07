@@ -23,10 +23,12 @@ webSocketServer.on("connection", (ws, request) => {
 
     ws.on("message", (msg) => {
         console.log(`${msg} [${ip}]`)
+        console.log(connection)
         let msgList = msg.toString().split(':')
 
         if (msgList[0] === 'Add') {
-            if (msgList[1] in connection) {
+            if (msgList[1] in Object.keys(connection)) {
+                console.log(1)
                 connection[msgList[1]][msgList[2]] = ''
                 console.log(connection, 'Add')
                 webSocketServer.clients.forEach(function each(client) {
@@ -52,6 +54,16 @@ webSocketServer.on("connection", (ws, request) => {
                     client.send(`ConnectionUpdate:${msgList[1]}:${JSON.stringify(Object.keys(connection[msgList[1]]))}`)
                 })
             }
+        } else if (msgList[0] === 'RequestContent') {
+            let msg = `${connection[msgList[1]][msgList[2]]}`
+            webSocketServer.clients.forEach(function each(client) {
+                client.send(`SendContent:${msg}`)
+            })
+        } else if (msgList[0] === 'Edit') {
+            connection[msgList[1]][msgList[2]] = msgList[3]
+            webSocketServer.clients.forEach(function each(client) {
+                client.send(`ContentUpdate:${msgList[1]}:${msgList[2]}:${msgList[3]}`)
+            })
         }
     })
 

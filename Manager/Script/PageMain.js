@@ -27,7 +27,7 @@ webSocket.onmessage = function (event) {
             let tempHTML = ''
             for (i = 0; i < connected.length; i++) {
                 tempHTML += `<label>Billboard ${connected[i]}</label>`
-                tempHTML += `<button class="ButtonBillboard" onclick="ButtonBillboardClicked(${i})">Billboard</button>`
+                tempHTML += `<button class="ButtonBillboard" onclick="buttonBillboardClicked(${connected[i]})">Billboard</button>`
             }
             document.getElementById('BillboardConnected').innerHTML = tempHTML
         }
@@ -46,17 +46,19 @@ function mainInit() {
     document.getElementById('Title').innerHTML = `${localStorage.getItem('BillboardManagerLogin')}'s billboard`
 }
 
-function butonBillboardClicked(num) {
-    alert(num)
-
-    if (state === 'apply') {
-        
-    }
+function buttonEditClicked() {
+    state = 'edit'
 }
 
-function billboardPresetButtonClicked(num) {
-    tempPreset = JSON.parse(localStorage.getItem('BillboardManagerOrganization'))[organization]['Billboard'][num]
-    state = 'apply'
+function buttonTriggerClicked() {
+    
+}
+
+function buttonBillboardClicked(name) {
+    if (state === 'edit') {
+        localStorage.setItem('BillboardEditName', name)
+        location.href = 'edit.html'
+    }
 }
 
 function logout() {

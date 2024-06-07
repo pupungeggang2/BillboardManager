@@ -23,15 +23,18 @@ function buttonConnectClicked() {
     let organization = document.getElementById("Organization").value
     localStorage.setItem('BillboardName', billboardName)
     billboardNameCurrent = billboardName
+    organizationCurrent = organization
     webSocket.send(`Add:${organization}:${billboardName}`)
 }
 
 function updateContent(msg) {
     let msgList = msg.split(':')
     
-    if (msgList[0] === 'Update') {
-        if (msgList[1] === billboardNameCurrent) {
-            billboardContent = JSON.parse(msgList[2])
+    if (msgList[0] === 'ContentUpdate') {
+        if (msgList[1] === organizationCurrent) {
+            if (msgList[2] === billboardNameCurrent) {
+                billboardContent = JSON.parse(msgList[3])
+            }
         }
     }
 }

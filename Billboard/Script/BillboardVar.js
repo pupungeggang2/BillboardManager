@@ -10,3 +10,4 @@ let delta
 
 let billboardContent = []
 let billboardNameCurrent = ''
+let organizationCurrent = ''
