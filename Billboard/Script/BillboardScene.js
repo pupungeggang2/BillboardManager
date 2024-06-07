@@ -6,7 +6,7 @@ function main() {
     canvas = document.getElementById('Screen')
     context = canvas.getContext('2d')
 
-    billboardName = localStorage.getItem('BillboardName')
+    billboardNameCurrent = localStorage.getItem('BillboardName')
 
     programFrameCurrent = Date.now()
     programFramePrevious = Date.now() - 16

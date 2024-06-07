@@ -5,9 +5,9 @@ webSocket.onopen = function () {
 }
 
 webSocket.onmessage = function (event) {
-    let msgString = event.data.toString()
-
-    updateContent(msgString)
+    let msg = event.data.toString()
+    console.log(msg)
+    updateContent(msg)
 }
 
 webSocket.onclose = function () {
@@ -18,10 +18,11 @@ webSocket.onerror = function (error) {
     console.log(error)
 }
 
-function setName() {
+function buttonConnectClicked() {
     let billboardName = document.getElementById("BillboardName").value
     let organization = document.getElementById("Organization").value
-    localStorage.setItem('BillboardName', document.getElementById("BillboardName").value)
+    localStorage.setItem('BillboardName', billboardName)
+    billboardNameCurrent = billboardName
     webSocket.send(`Add:${organization}:${billboardName}`)
 }
 
@@ -29,7 +30,7 @@ function updateContent(msg) {
     let msgList = msg.split(':')
     
     if (msgList[0] === 'Update') {
-        if (msgList[1] === billboardName) {
+        if (msgList[1] === billboardNameCurrent) {
             billboardContent = JSON.parse(msgList[2])
         }
     }

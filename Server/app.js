@@ -28,20 +28,29 @@ webSocketServer.on("connection", (ws, request) => {
         if (msgList[0] === 'Add') {
             if (msgList[1] in connection) {
                 connection[msgList[1]][msgList[2]] = ''
-                console.log(connection)
-                ws.send(`ConnectionUpdate:${msgList[1]}:${JSON.stringify(Object.keys(connection))}`)
+                console.log(connection, 'Add')
+                webSocketServer.clients.forEach(function each(client) {
+                    client.send(`ConnectionUpdate:${msgList[1]}:${JSON.stringify(Object.keys(connection[msgList[1]]))}`)
+                })
             } else {
+                console.log(2)
                 connection[msgList[1]] = {}
                 connection[msgList[1]][msgList[2]] = ''
-                console.log(connection)
-                ws.send(`ConnectionUpdate:${msgList[1]}:${JSON.stringify(Object.keys(connection))}`)
+                console.log(connection, 'Add')
+                webSocketServer.clients.forEach(function each(client) {
+                    client.send(`ConnectionUpdate:${msgList[1]}:${JSON.stringify(Object.keys(connection[msgList[1]]))}`)
+                })
             }
         } else if (msgList[0] === 'ConnectionRequest') {
             if (msgList[1] in connection) {
-                ws.send(`ConnectionUpdate:${msgList[1]}:${JSON.stringify(Object.keys(connection[msgList[1]]))}`)
+                webSocketServer.clients.forEach(function each(client) {
+                    client.send(`ConnectionUpdate:${msgList[1]}:${JSON.stringify(Object.keys(connection[msgList[1]]))}`)
+                })
             } else {
                 connection[msgList[1]] = ''
-                ws.send(`ConnectionUpdate:${msgList[1]}:${JSON.stringify(Object.keys(connection[msgList[1]]))}`)
+                webSocketServer.clients.forEach(function each(client) {
+                    client.send(`ConnectionUpdate:${msgList[1]}:${JSON.stringify(Object.keys(connection[msgList[1]]))}`)
+                })
             }
         }
     })
