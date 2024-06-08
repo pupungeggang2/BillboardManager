@@ -6,7 +6,6 @@ function displayEdit() {
     drawEditInit()
 
     drawEditUpperBar()
-    drawEditLowerBar()
     drawEdit()
 }
 

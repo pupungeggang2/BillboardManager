@@ -2,7 +2,7 @@ const express = require("express")
 const ws = require("ws")
 const app = express()
 
-var connection = {}
+var connection = {'null' : {}}
 
 const httpServer = app.listen(3001, () => {
     console.log("3001")
@@ -27,7 +27,7 @@ webSocketServer.on("connection", (ws, request) => {
         let msgList = msg.toString().split(':')
 
         if (msgList[0] === 'Add') {
-            if (msgList[1] in Object.keys(connection)) {
+            if (Object.keys(connection).includes(msgList[1])) {
                 console.log(1)
                 connection[msgList[1]][msgList[2]] = ''
                 console.log(connection, 'Add')
@@ -44,7 +44,7 @@ webSocketServer.on("connection", (ws, request) => {
                 })
             }
         } else if (msgList[0] === 'ConnectionRequest') {
-            if (msgList[1] in connection) {
+            if (Object.keys(connection).includes(msgList[1])) {
                 webSocketServer.clients.forEach(function each(client) {
                     client.send(`ConnectionUpdate:${msgList[1]}:${JSON.stringify(Object.keys(connection[msgList[1]]))}`)
                 })
@@ -64,6 +64,18 @@ webSocketServer.on("connection", (ws, request) => {
             webSocketServer.clients.forEach(function each(client) {
                 client.send(`ContentUpdate:${msgList[1]}:${msgList[2]}:${msgList[3]}`)
             })
+        } else if (msgList[0] === 'Delete') {
+            if (Object.keys(connection).includes(msgList[1])) {
+                if (Object.keys(connection[[msgList[1]]]).includes(msgList[2])) {
+                    console.log(3)
+                    delete connection[msgList[1]][msgList[2]]
+                    console.log(connection)
+                    webSocketServer.clients.forEach(function each(client) {
+                        client.send(`ContentErase:${msgList[1]}:${msgList[2]}`)
+                        client.send(`ConnectionUpdate:${msgList[1]}:${JSON.stringify(Object.keys(connection[msgList[1]]))}`)
+                    })
+                }
+            }
         }
     })
 

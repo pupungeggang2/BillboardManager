@@ -1,5 +1,7 @@
 let editCavnas
 let editContext
+let upperBarCanvas
+let upperBarContext
 
 let editInstance
 let editFrameCurrent

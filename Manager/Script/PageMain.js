@@ -44,6 +44,7 @@ webSocket.onerror = function (error) {
 
 function mainInit() {
     document.getElementById('Title').innerHTML = `${localStorage.getItem('BillboardManagerLogin')}'s billboard`
+    state = ''
 }
 
 function buttonEditClicked() {
@@ -54,10 +55,19 @@ function buttonTriggerClicked() {
     
 }
 
+function buttonDeleteClicked() {
+    state = 'delete'
+}
+
 function buttonBillboardClicked(name) {
     if (state === 'edit') {
         localStorage.setItem('BillboardEditName', name)
         location.href = 'edit.html'
+        state = ''
+    } else if (state === 'delete') {
+        let organization = JSON.parse(localStorage.getItem('BillboardManagerAccount'))[localStorage.getItem('BillboardManagerLogin')]['Organization']
+        webSocket.send(`Delete:${organization}:${name}`)
+        state = ''
     }
 }
 

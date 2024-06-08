@@ -17,7 +17,11 @@ webSocket.onmessage = function (event) {
 
     console.log(msg)
     if (msgList[0] === 'SendContent') {
-        editContent = JSON.parse(msgList[1])
+        if (editContent === '') {
+            editContent = [[], [], []]
+        } else {
+            editContent = JSON.parse(msgList[1])
+        }
     }
 }
 
@@ -32,13 +36,15 @@ webSocket.onerror = function (error) {
 function editInit() {
     editCanvas = document.getElementById('EditCanvas')
     editContext = editCanvas.getContext('2d')
+    upperBarCanvas = document.getElementById('EditUpperBar')
+    upperBarContext = upperBarCanvas.getContext('2d')
 
     editCanvas.addEventListener('mouseup', mouseUp, false)
     window.addEventListener('keydown', keyDown, false)
 
     billboardName = localStorage.getItem('BillboardEditName')
     let organization = JSON.parse(localStorage.getItem('BillboardManagerAccount'))[localStorage.getItem('BillboardManagerLogin')]['Organization']
-    console.log(`RequestContent:${organization}:${billboardName}`)
+    imageLoad()
 
     editFrameCurrent = Date.now()
     editFramePrevious = Date.now() - 16
@@ -73,7 +79,7 @@ function keyDown(event) {
 
 function errorHandle(err, url, line, col, obj) {
     if (obj != null) {
-        cancelAnimationFrame()
+        cancelAnimationFrame(editInstance)
     }
 }
 

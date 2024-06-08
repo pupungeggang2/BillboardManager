@@ -36,5 +36,7 @@ function updateContent(msg) {
                 billboardContent = JSON.parse(msgList[3])
             }
         }
+    } else if (msgList[0] === 'Delete') {
+        billboardContent = [[], [], []]
     }
 }

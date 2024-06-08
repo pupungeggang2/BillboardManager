@@ -8,6 +8,6 @@ let programFrameCurrent
 let programFramePrevious
 let delta
 
-let billboardContent = []
+let billboardContent = [[], [], []]
 let billboardNameCurrent = ''
 let organizationCurrent = ''
