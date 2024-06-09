@@ -5,7 +5,7 @@ const app = express()
 var connection = {'null' : {}}
 
 const httpServer = app.listen(3001, () => {
-    console.log("3001")
+    console.log("Listening at 3001")
 })
 
 const webSocketServer = new ws.Server({
@@ -24,55 +24,58 @@ webSocketServer.on("connection", (ws, request) => {
     ws.on("message", (msg) => {
         console.log(`${msg} [${ip}]`)
         console.log(connection)
-        let msgList = msg.toString().split(':')
+        let msgList = msg.toString().split('|')
 
-        if (msgList[0] === 'Add') {
+        if (msgList[0] === 'ConnectFromBillboard') {
             if (Object.keys(connection).includes(msgList[1])) {
-                console.log(1)
-                connection[msgList[1]][msgList[2]] = ''
-                console.log(connection, 'Add')
-                webSocketServer.clients.forEach(function each(client) {
-                    client.send(`ConnectionUpdate:${msgList[1]}:${JSON.stringify(Object.keys(connection[msgList[1]]))}`)
-                })
+                if (Object.keys(connection[msgList[1]]).includes(msgList[2])) {
+                    let msg = JSON.stringify(connection[msgList[1]][msgList[2]])
+                    webSocketServer.clients.forEach(function each(client) {
+                        client.send(`ConnectionUpdate|${msgList[1]}|${JSON.stringify(Object.keys(connection[msgList[1]]))}`)
+                        client.send(`ContentUpdate|${msgList[1]}|${msgList[2]}|${msg}`)
+                    })
+                } else {
+                    connection[msgList[1]][msgList[2]] = JSON.stringify([[], [], []])
+                    webSocketServer.clients.forEach(function each(client) {
+                        client.send(`ConnectionUpdate|${msgList[1]}|${JSON.stringify(Object.keys(connection[msgList[1]]))}`)
+                    })
+                }
             } else {
-                console.log(2)
                 connection[msgList[1]] = {}
-                connection[msgList[1]][msgList[2]] = ''
-                console.log(connection, 'Add')
+                connection[msgList[1]][msgList[2]] = JSON.stringify([[], [], []])
                 webSocketServer.clients.forEach(function each(client) {
-                    client.send(`ConnectionUpdate:${msgList[1]}:${JSON.stringify(Object.keys(connection[msgList[1]]))}`)
+                    client.send(`ConnectionUpdate|${msgList[1]}|${JSON.stringify(Object.keys(connection[msgList[1]]))}`)
                 })
             }
         } else if (msgList[0] === 'ConnectionRequest') {
             if (Object.keys(connection).includes(msgList[1])) {
                 webSocketServer.clients.forEach(function each(client) {
-                    client.send(`ConnectionUpdate:${msgList[1]}:${JSON.stringify(Object.keys(connection[msgList[1]]))}`)
+                    client.send(`ConnectionUpdate|${msgList[1]}|${JSON.stringify(Object.keys(connection[msgList[1]]))}`)
                 })
             } else {
                 connection[msgList[1]] = ''
                 webSocketServer.clients.forEach(function each(client) {
-                    client.send(`ConnectionUpdate:${msgList[1]}:${JSON.stringify(Object.keys(connection[msgList[1]]))}`)
+                    client.send(`ConnectionUpdate|${msgList[1]}|${JSON.stringify(Object.keys(connection[msgList[1]]))}`)
                 })
             }
         } else if (msgList[0] === 'RequestContent') {
             let msg = `${connection[msgList[1]][msgList[2]]}`
             webSocketServer.clients.forEach(function each(client) {
-                client.send(`SendContent:${msg}`)
+                client.send(`SendContent|${msgList[1]}|${msgList[2]}|${JSON.stringify(msg)}`)
             })
         } else if (msgList[0] === 'Edit') {
             connection[msgList[1]][msgList[2]] = msgList[3]
             webSocketServer.clients.forEach(function each(client) {
-                client.send(`ContentUpdate:${msgList[1]}:${msgList[2]}:${msgList[3]}`)
+                client.send(`ContentUpdate|${msgList[1]}|${msgList[2]}|${msgList[3]}`)
             })
         } else if (msgList[0] === 'Delete') {
             if (Object.keys(connection).includes(msgList[1])) {
                 if (Object.keys(connection[[msgList[1]]]).includes(msgList[2])) {
-                    console.log(3)
                     delete connection[msgList[1]][msgList[2]]
                     console.log(connection)
                     webSocketServer.clients.forEach(function each(client) {
-                        client.send(`ContentErase:${msgList[1]}:${msgList[2]}`)
-                        client.send(`ConnectionUpdate:${msgList[1]}:${JSON.stringify(Object.keys(connection[msgList[1]]))}`)
+                        client.send(`ContentErase|${msgList[1]}|${msgList[2]}`)
+                        client.send(`ConnectionUpdate|${msgList[1]}|${JSON.stringify(Object.keys(connection[msgList[1]]))}`)
                     })
                 }
             }

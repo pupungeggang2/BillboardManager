@@ -20,13 +20,31 @@ function drawEditInit() {
 }
 
 function drawEdit() {
-    for (let i = 0; i < editContent.length; i++) {
-        let tempContent = editContent[i]
+    for (let i = 0; i < editContent[editScreenNum].length; i++) {
+        let tempContent = editContent[editScreenNum][i]
 
         if (tempContent['Type'] === 'Text') {
-            editContext.fillStyle = tempContent['Property']['Color']
-            editContext.font = tempContent['Property']['Font']
-            editContext.fillText(tempContent['Content'], tempContent['Position'][0], tempContent['Position'][1])
+            editContext.fillStyle = tempContent['Color']
+            editContext.font = tempContent['Font']
+            editContext.fillText(tempContent['Text'], tempContent['Position'][0], tempContent['Position'][1])
+        }
+
+        if (tempContent['Type'] === 'WidgetTemp') {
+            editContext.fillStyle = 'White'
+            editContext.font = '48px Roboto'
+            editContext.fillText(`${tempContent['Value']}°C`, tempContent['Position'][0], tempContent['Position'][1])
+        }
+
+        if (tempContent['Type'] === 'WidgetHumidity') {
+            editContext.fillStyle = 'Cyan'
+            editContext.font = '48px Roboto'
+            editContext.fillText(`${tempContent['Value']}%`, tempContent['Position'][0], tempContent['Position'][1])
+        }
+
+        if (tempContent['Type'] === 'WidgetNoise') {
+            editContext.fillStyle = 'White'
+            editContext.font = '48px Roboto'
+            editContext.fillText(`${tempContent['Value']}dB`, tempContent['Position'][0], tempContent['Position'][1])
         }
     }
 

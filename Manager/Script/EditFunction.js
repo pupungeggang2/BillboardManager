@@ -6,14 +6,10 @@ function pointInsideRectArray(x, y, rect) {
     return x > rect[0] && x < rect[0] + rect[2] && y > rect[1] && y < rect[1] + rect[3]
 }
 
-function tempButtonPressed() {
-    editContent.push({'Type' : 'Text', 'Position' : [200, 200], 'Property' : {'Color' : 'White', 'Font' : '24px Roboto'}, 'Content' : 'Hello'})
-}
-
 function editFinish() {
     let organization = JSON.parse(localStorage.getItem('BillboardManagerAccount'))[localStorage.getItem('BillboardManagerLogin')]['Organization']
-    console.log(`Edit:${organization}:${billboardName}:${editContent}`)
-    webSocket.send(`Edit:${organization}:${billboardName}:${editContent}`)
+    console.log(`Edit|${organization}|${billboardName}|${JSON.stringify(editContent)}`)
+    webSocket.send(`Edit|${organization}|${billboardName}|${JSON.stringify(editContent)}`)
 
     editContent = []
 

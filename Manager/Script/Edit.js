@@ -7,20 +7,22 @@ webSocket.onopen = function () {
     let organization = JSON.parse(localStorage.getItem('BillboardManagerAccount'))[localStorage.getItem('BillboardManagerLogin')]['Organization']
     console.log(organization)
     let billboardName = localStorage.getItem('BillboardEditName')
-    webSocket.send(`RequestContent:${organization}:${billboardName}`)
+    webSocket.send(`RequestContent|${organization}|${billboardName}`)
 }
 
 webSocket.onmessage = function (event) {
     let msg = event.data.toString()
-    let msgList = msg.split(':')
+    let msgList = msg.split('|')
     let organization = JSON.parse(localStorage.getItem('BillboardManagerAccount'))[localStorage.getItem('BillboardManagerLogin')]['Organization']
+    let billboardName = localStorage.getItem('BillboardEditName')
 
     console.log(msg)
     if (msgList[0] === 'SendContent') {
-        if (editContent === '') {
-            editContent = [[], [], []]
-        } else {
-            editContent = JSON.parse(msgList[1])
+        if (msgList[1] === organization) {
+            if (msgList[2] === billboardName) {
+                editContent = JSON.parse(msgList[3])
+                editContent = JSON.parse(editContent)
+            }
         }
     }
 }
@@ -39,7 +41,8 @@ function editInit() {
     upperBarCanvas = document.getElementById('EditUpperBar')
     upperBarContext = upperBarCanvas.getContext('2d')
 
-    editCanvas.addEventListener('mouseup', mouseUp, false)
+    editCanvas.addEventListener('mouseup', mouseUpEdit, false)
+    upperBarCanvas.addEventListener('mouseup', mouseUpUpper, false)
     window.addEventListener('keydown', keyDown, false)
 
     billboardName = localStorage.getItem('BillboardEditName')
@@ -61,14 +64,22 @@ function loop() {
     editInstance = requestAnimationFrame(loop)
 }
 
-function mouseUp(event) {
+function mouseUpEdit(event) {
     let canvasRect = editCanvas.getBoundingClientRect()
     let x = event.clientX - canvasRect.left
     let y = event.clientY - canvasRect.top
     let button = event.button
     
-    console.log(x, y)
-    mouseUpEdit(x, y, button)
+    mouseUpEditCanvas(x, y, button)
+}
+
+function mouseUpUpper(event) {
+    let canvasRect = upperBarCanvas.getBoundingClientRect()
+    let x = event.clientX - canvasRect.left
+    let y = event.clientY - canvasRect.top
+    let button = event.button
+    
+    mouseUpUpperBar(x, y, button) 
 }
 
 function keyDown(event) {

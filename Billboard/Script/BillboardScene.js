@@ -32,6 +32,36 @@ function display() {
     context.lineWidth = 2
     context.clearRect(0, 0, 960, 540)
     context.fillRect(0, 0, 960, 540)
+
+    for (let i = 0; i < billboardContent[billbordScreenNum].length; i++) {
+        let tempContent = billboardContent[billbordScreenNum][i]
+
+        if (tempContent['Type'] === 'Text') {
+            context.fillStyle = tempContent['Color']
+            context.font = tempContent['Font']
+            context.fillText(tempContent['Text'], tempContent['Position'][0], tempContent['Position'][1])
+        }
+
+        if (tempContent['Type'] === 'WidgetTemp') {
+            context.fillStyle = 'White'
+            context.font = '48px Roboto'
+            context.fillText(`${tempContent['Value']}°C`, tempContent['Position'][0], tempContent['Position'][1])
+        }
+
+        if (tempContent['Type'] === 'WidgetHumidity') {
+            context.fillStyle = 'Cyan'
+            context.font = '48px Roboto'
+            context.fillText(`${tempContent['Value']}%`, tempContent['Position'][0], tempContent['Position'][1])
+        }
+
+        if (tempContent['Type'] === 'WidgetNoise') {
+            context.fillStyle = 'White'
+            context.font = '48px Roboto'
+            context.fillText(`${tempContent['Value']}dB`, tempContent['Position'][0], tempContent['Position'][1])
+        }
+    }
+
+    context.fillStyle = 'Black'
 }
 
 function errorHandle(err, url, line, col, obj) {

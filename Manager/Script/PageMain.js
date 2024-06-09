@@ -12,12 +12,12 @@ let IDs = []
 webSocket.onopen = function () {
     alert('Connected to server.')
     let organization = JSON.parse(localStorage.getItem('BillboardManagerAccount'))[localStorage.getItem('BillboardManagerLogin')]['Organization']
-    webSocket.send(`ConnectionRequest:${organization}`)
+    webSocket.send(`ConnectionRequest|${organization}`)
 }
 
 webSocket.onmessage = function (event) {
     let msg = event.data.toString()
-    let msgList = msg.split(':')
+    let msgList = msg.split('|')
     let organization = JSON.parse(localStorage.getItem('BillboardManagerAccount'))[localStorage.getItem('BillboardManagerLogin')]['Organization']
     console.log(msg)
 
@@ -27,7 +27,7 @@ webSocket.onmessage = function (event) {
             let tempHTML = ''
             for (i = 0; i < connected.length; i++) {
                 tempHTML += `<label>Billboard ${connected[i]}</label>`
-                tempHTML += `<button class="ButtonBillboard" onclick="buttonBillboardClicked(${connected[i]})">Billboard</button>`
+                tempHTML += `<button class="ButtonBillboard" onclick="buttonBillboardClicked('${connected[i]}')">Billboard</button>`
             }
             document.getElementById('BillboardConnected').innerHTML = tempHTML
         }
